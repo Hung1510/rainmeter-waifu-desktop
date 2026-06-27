@@ -1,0 +1,12 @@
+# Bring your own character art -> don't commit images you don't own
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Packaged skins and stray binaries
+*.rmskin
+*.exe
+
+# keep the placeholder note so the Images folder isn't empty
+!@Resources/Images/README.md
