@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rainmeter-waifu-desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#070b14; --bg-1:#0b1322; --bg-2:#101d32;
+    --ice:#8fd6ff; --ice-soft:#bfe6ff; --lav:#c7c0ff; --amber:#ffcf7a;
+    --ink:#eaf3ff; --muted:#7e93b3; --line:rgba(143,214,255,.14);
+    --glass:rgba(18,30,52,.55);
+    --disp:"Space Grotesk",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body); color:var(--ink); background:var(--bg-0);
+    line-height:1.5; overflow-x:hidden;
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(143,214,255,.10), transparent 60%),
+      radial-gradient(900px 500px at 10% 10%, rgba(199,192,255,.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 60%, var(--bg-0));
+  }
+  ::selection{background:rgba(143,214,255,.25)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:var(--ice);text-decoration:none}
+
+  /* starfield */
+  .stars{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
+  .stars span{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--ice-soft);
+    animation:tw 4s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.15}50%{opacity:.9}}
+
+  /* hero */
+  header{position:relative;z-index:1;padding:84px 0 40px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--ice);opacity:.85}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(40px,7vw,82px);line-height:.98;
+    letter-spacing:-.02em;margin:14px 0 18px}
+  h1 .b{color:var(--ice)}
+  .lead{max-width:560px;color:var(--muted);font-size:18px}
+  .lead b{color:var(--ink);font-weight:600}
+
+  /* live desktop panel */
+  .desk{position:relative;z-index:1;margin:44px 0 8px;
+    border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    background:
+      radial-gradient(700px 300px at 100% 0%, rgba(143,214,255,.10), transparent 60%),
+      linear-gradient(180deg, rgba(11,19,34,.9), rgba(7,11,20,.92));
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.04)}
+  .deskbar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);
+    font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .dot.r{background:#ff6b6b}.dot.y{background:var(--amber)}.dot.g{background:#7ee0b0}
+  .deskbar .path{margin-left:10px}
+  .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;padding:22px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+    backdrop-filter:blur(8px)}
+  .card .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ice);opacity:.8}
+
+  /* clock */
+  .clock .time{font-family:var(--disp);font-weight:700;font-size:64px;letter-spacing:-.02em;line-height:1}
+  .clock .date{font-family:var(--mono);font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:6px}
+
+  /* weather */
+  .wx .temp{font-family:var(--disp);font-weight:700;font-size:54px;line-height:1}
+  .wx .cond{color:var(--lav);font-size:15px;margin-top:2px}
+  .wx .meta{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:10px}
+  .wx .city{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink)}
+
+  /* calendar */
+  .cal table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px;margin-top:8px}
+  .cal th{color:var(--muted);font-weight:500;padding:4px 0;font-size:11px}
+  .cal td{text-align:center;padding:5px 0;color:var(--ink)}
+  .cal td.dim{color:transparent}
+  .cal td.today{color:var(--bg-0);font-weight:700;position:relative}
+  .cal td.today::before{content:"";position:absolute;inset:2px 4px;background:var(--ice);border-radius:6px;z-index:-1}
+  .cal .mon{font-family:var(--disp);font-weight:500;font-size:15px}
+
+  /* cpu */
+  .cpu .val{font-family:var(--disp);font-weight:700;font-size:40px;color:var(--amber)}
+  .cpu .note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
+
+  .span2{grid-column:1 / -1}
+  .row{display:flex;gap:18px}
+  @media(max-width:760px){.row{flex-direction:column}}
+  .row>.card{flex:1}
+
+  /* sections */
+  section{position:relative;z-index:1;padding:64px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--ice);opacity:.85}
+  h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,4vw,40px);letter-spacing:-.01em;margin:10px 0 14px}
+  p.body{color:var(--muted);max-width:620px;font-size:16px}
+  p.body code{font-family:var(--mono);font-size:.9em;color:var(--ice-soft);background:rgba(143,214,255,.08);padding:1px 6px;border-radius:5px}
+
+  pre{margin-top:20px;background:rgba(7,11,20,.8);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.7}
+  pre .c{color:var(--muted)}        /* comment */
+  pre .k{color:var(--ice)}          /* key */
+  pre .s{color:var(--amber)}        /* string/value */
+  pre .g{color:var(--lav)}          /* group */
+
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+  @media(max-width:760px){.flow{grid-template-columns:1fr 1fr}}
+  .step{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--glass)}
+  .step .n{font-family:var(--mono);font-size:12px;color:var(--ice)}
+  .step .t{font-family:var(--disp);font-weight:500;margin:6px 0 4px}
+  .step .d{font-size:13px;color:var(--muted)}
+
+  .tree{font-family:var(--mono);font-size:13px;color:var(--muted);line-height:1.8;margin-top:18px}
+  .tree .f{color:var(--ink)}
+
+  footer{position:relative;z-index:1;padding:56px 0 80px;border-top:1px solid var(--line);text-align:center}
+  .cta{display:inline-block;font-family:var(--mono);font-size:14px;border:1px solid var(--ice);
+    color:var(--ice);padding:12px 22px;border-radius:10px;margin-top:8px;transition:.2s}
+  .cta:hover{background:var(--ice);color:var(--bg-0)}
+  .fineprint{color:var(--muted);font-size:13px;margin-top:22px;font-family:var(--mono)}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Rainmeter suite · Windows · no API keys</div>
+    <h1>rainmeter-<span class="b">waifu</span>-desktop</h1>
+    <p class="lead">A tiny set of desktop widgets that gives Windows the clean Linux-ricing look — a character cutout, <b>live weather</b>, a clock, a month calendar, and CPU temp. Four small skins you can read top to bottom. The panel below is the real thing, running live in your browser.</p>
+
+    <div class="desk">
+      <div class="deskbar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="path">~/Documents/Rainmeter/Skins/rainmeter-waifu-desktop</span>
+      </div>
+      <div class="grid">
+        <div class="card clock">
+          <div class="lbl">Clock</div>
+          <div class="time" id="time">--:--</div>
+          <div class="date" id="date">loading</div>
+        </div>
+        <div class="card wx">
+          <div class="lbl">Weather · Open-Meteo</div>
+          <div class="city" id="wxcity">Biên Hòa</div>
+          <div class="temp" id="wxtemp">--°</div>
+          <div class="cond" id="wxcond">fetching live…</div>
+          <div class="meta" id="wxwind">wind — </div>
+        </div>
+        <div class="card cal span2">
+          <div class="lbl">Calendar</div>
+          <div class="mon" id="calmon">—</div>
+          <table id="cal"><thead><tr>
+            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+          </tr></thead><tbody id="calbody"></tbody></table>
+        </div>
+        <div class="row span2">
+          <div class="card cpu">
+            <div class="lbl">CPU Temp</div>
+            <div class="val" id="cputemp">— °C</div>
+            <div class="note">live on the desktop via the Core Temp plugin</div>
+          </div>
+          <div class="card">
+            <div class="lbl">Footprint</div>
+            <div class="val" style="color:var(--ice)">~30 MB</div>
+            <div class="note">tens of MB RAM, ~0% CPU at idle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">The one good trick</div>
+    <h2>Weather is one HTTP GET and some regex</h2>
+    <p class="body">No account, no key, no telemetry. The skin asks <a href="https://open-meteo.com">Open-Meteo</a> for the fields it wants, in the order it wants them, so the regex below can pull each value out by position. The numeric <code>weather_code</code> goes through a small Lua table that turns it into words like “Partly cloudy.”</p>
+
+    <div class="flow">
+      <div class="step"><div class="n">[1]</div><div class="t">Fetch</div><div class="d">One GET to <code>/v1/forecast</code> with the fields listed in the URL.</div></div>
+      <div class="step"><div class="n">[2]</div><div class="t">Match</div><div class="d">A single regex captures temp, code, wind, day/night by group.</div></div>
+      <div class="step"><div class="n">[3]</div><div class="t">Index</div><div class="d">Each child measure reads one capture group — no extra calls.</div></div>
+      <div class="step"><div class="n">[4]</div><div class="t">Map</div><div class="d">Lua turns the code number into a readable condition.</div></div>
+    </div>
+
+<pre><span class="c">; Weather/Weather.ini  -> the whole widget, minus styling</span>
+<span class="g">[MeasureWeather]</span>
+<span class="k">Measure</span>=WebParser
+<span class="k">URL</span>=<span class="s">https://api.open-meteo.com/v1/forecast?latitude=#Lat#&longitude=#Lon#</span>
+    <span class="s">&current=temperature_2m,weather_code,wind_speed_10m,is_day&timezone=auto</span>
+<span class="k">RegExp</span>=<span class="s">(?siU)"temperature_2m":(.*),"weather_code":(.*),"wind_speed_10m":(.*),"is_day":(.*)}</span>
+
+<span class="g">[MeasureTemp]</span>
+<span class="k">URL</span>=[MeasureWeather]
+<span class="k">StringIndex</span>=<span class="s">1</span>    <span class="c">; capture group 1 = temperature</span>
+
+<span class="g">[MeasureCode]</span>
+<span class="k">URL</span>=[MeasureWeather]
+<span class="k">StringIndex</span>=<span class="s">2</span>    <span class="c">; -> weathercode.lua maps this to "Partly cloudy"</span></pre>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Structure</div>
+    <h2>Four skins, one shared brain</h2>
+    <p class="body">Everything you'd change lives in a single <code>Variables.inc</code> — location, units, fonts, colors, which image to show. Swap your city and your character art and it's yours.</p>
+    <div class="tree">
+rainmeter-waifu-desktop/<br>
+├─ <span class="f">Waifu/</span>      — character cutout (load several for more)<br>
+├─ <span class="f">Weather/</span>    — live Open-Meteo, no key<br>
+├─ <span class="f">Clock/</span>      — time + date<br>
+├─ <span class="f">Calendar/</span>   — month grid, today highlighted (pure Lua)<br>
+├─ <span class="f">CpuTemp/</span>    — hottest core via Core Temp plugin<br>
+└─ <span class="f">@Resources/</span> — Variables.inc · weathercode.lua · calendar.lua · Images/
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="kicker">Get it</div>
+    <h2 style="margin-bottom:6px">Install in a minute</h2>
+    <p class="body" style="margin:0 auto">Install Rainmeter, drop the folder in your Skins directory, load the four skins. Bring your own character art.</p>
+    <br>
+    <a class="cta" href="https://www.rainmeter.net">Download Rainmeter →</a>
+    <div class="fineprint">MIT licensed code · character art not included, bring your own · built for fun</div>
+  </div>
+</footer>
+
+<script>
+// ---- starfield ----
+(function(){
+  const s=document.getElementById('stars');
+  for(let i=0;i<70;i++){const e=document.createElement('span');
+    e.style.left=Math.random()*100+'%';e.style.top=Math.random()*100+'%';
+    e.style.animationDelay=(Math.random()*4)+'s';
+    e.style.opacity=(.2+Math.random()*.6);s.appendChild(e);}
+})();
+
+// ---- live clock ----
+function tick(){
+  const n=new Date();
+  const p=x=>String(x).padStart(2,'0');
+  document.getElementById('time').textContent=p(n.getHours())+':'+p(n.getMinutes());
+  document.getElementById('date').textContent=n.toLocaleDateString(undefined,
+    {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+}
+tick();setInterval(tick,1000);
+
+// ---- calendar (today highlighted) ----
+(function(){
+  const n=new Date(),y=n.getFullYear(),m=n.getMonth(),today=n.getDate();
+  document.getElementById('calmon').textContent=
+    n.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+  const body=document.getElementById('calbody');let row=document.createElement('tr');
+  for(let i=0;i<first;i++){const td=document.createElement('td');td.className='dim';td.textContent='0';row.appendChild(td);}
+  for(let d=1;d<=days;d++){
+    if(row.children.length===7){body.appendChild(row);row=document.createElement('tr');}
+    const td=document.createElement('td');td.textContent=d;
+    if(d===today)td.className='today';row.appendChild(td);
+  }
+  body.appendChild(row);
+})();
+
+// ---- live weather (Open-Meteo, Bien Hoa) ----
+const WMO={0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Rime fog',
+  51:'Light drizzle',53:'Drizzle',55:'Dense drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',
+  71:'Light snow',73:'Snow',75:'Heavy snow',80:'Light showers',81:'Showers',82:'Violent showers',
+  95:'Thunderstorm',96:'Thunderstorm + hail',99:'Thunderstorm + hail'};
+(async function(){
+  try{
+    const u='https://api.open-meteo.com/v1/forecast?latitude=10.95&longitude=106.82'
+      +'&current=temperature_2m,weather_code,wind_speed_10m,is_day&timezone=auto';
+    const r=await fetch(u);const j=await r.json();const c=j.current;
+    document.getElementById('wxtemp').textContent=Math.round(c.temperature_2m)+'°';
+    document.getElementById('wxcond').textContent=(WMO[c.weather_code]||'—')+(c.is_day?' · day':' · night');
+    document.getElementById('wxwind').textContent='wind '+Math.round(c.wind_speed_10m)+' km/h';
+  }catch(e){
+    document.getElementById('wxcond').textContent='offline — open with a connection to see live data';
+  }
+})();
+
+// ---- cpu temp: honest placeholder (browsers can't read sensors) ----
+document.getElementById('cputemp').textContent='— °C';
+</script>
+</body>
+</html>
