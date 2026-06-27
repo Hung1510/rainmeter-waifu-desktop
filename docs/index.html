@@ -103,10 +103,10 @@
 
   pre{margin-top:20px;background:rgba(7,11,20,.8);border:1px solid var(--line);border-radius:12px;
     padding:18px 20px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.7}
-  pre .c{color:var(--muted)}        /* comment */
-  pre .k{color:var(--ice)}          /* key */
-  pre .s{color:var(--amber)}        /* string/value */
-  pre .g{color:var(--lav)}          /* group */
+  pre .c{color:var(--muted)}  
+  pre .k{color:var(--ice)}     
+  pre .s{color:var(--amber)}   
+  pre .g{color:var(--lav)} 
 
   .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
   @media(max-width:760px){.flow{grid-template-columns:1fr 1fr}}
@@ -134,7 +134,7 @@
   <div class="wrap">
     <div class="eyebrow">Rainmeter suite · Windows · no API keys</div>
     <h1>rainmeter-<span class="b">waifu</span>-desktop</h1>
-    <p class="lead">A tiny set of desktop widgets that gives Windows the clean Linux-ricing look — a character cutout, <b>live weather</b>, a clock, a month calendar, and CPU temp. Four small skins you can read top to bottom. The panel below is the real thing, running live in your browser.</p>
+    <p class="lead">A tiny set of desktop widgets that gives Windows the clean Linux-ricing look - a character cutout, <b>live weather</b>, a clock, a month calendar, and CPU temp. Four small skins you can read top to bottom. The panel below is the real thing, running live in your browser.</p>
 
     <div class="desk">
       <div class="deskbar">
@@ -152,7 +152,7 @@
           <div class="city" id="wxcity">Biên Hòa</div>
           <div class="temp" id="wxtemp">--°</div>
           <div class="cond" id="wxcond">fetching live…</div>
-          <div class="meta" id="wxwind">wind — </div>
+          <div class="meta" id="wxwind">wind - </div>
         </div>
         <div class="card cal span2">
           <div class="lbl">Calendar</div>
@@ -182,12 +182,12 @@
   <div class="wrap">
     <div class="kicker">The one good trick</div>
     <h2>Weather is one HTTP GET and some regex</h2>
-    <p class="body">No account, no key, no telemetry. The skin asks <a href="https://open-meteo.com">Open-Meteo</a> for the fields it wants, in the order it wants them, so the regex below can pull each value out by position. The numeric <code>weather_code</code> goes through a small Lua table that turns it into words like “Partly cloudy.”</p>
+    <p class="body">No account, no key, no telemetry.<a href="https://open-meteo.com">Open-Meteo</a> for the fields it wants, in the order it wants them, so the regex below can pull each value out by position. The numeric <code>weather_code</code> goes through a small Lua table that turns it into words like “Partly cloudy.”</p>
 
     <div class="flow">
       <div class="step"><div class="n">[1]</div><div class="t">Fetch</div><div class="d">One GET to <code>/v1/forecast</code> with the fields listed in the URL.</div></div>
       <div class="step"><div class="n">[2]</div><div class="t">Match</div><div class="d">A single regex captures temp, code, wind, day/night by group.</div></div>
-      <div class="step"><div class="n">[3]</div><div class="t">Index</div><div class="d">Each child measure reads one capture group — no extra calls.</div></div>
+      <div class="step"><div class="n">[3]</div><div class="t">Index</div><div class="d">Each child measure reads one capture group.</div></div>
       <div class="step"><div class="n">[4]</div><div class="t">Map</div><div class="d">Lua turns the code number into a readable condition.</div></div>
     </div>
 
@@ -200,11 +200,11 @@
 
 <span class="g">[MeasureTemp]</span>
 <span class="k">URL</span>=[MeasureWeather]
-<span class="k">StringIndex</span>=<span class="s">1</span>    <span class="c">; capture group 1 = temperature</span>
+<span class="k">StringIndex</span>=<span class="s">1</span>
 
 <span class="g">[MeasureCode]</span>
 <span class="k">URL</span>=[MeasureWeather]
-<span class="k">StringIndex</span>=<span class="s">2</span>    <span class="c">; -> weathercode.lua maps this to "Partly cloudy"</span></pre>
+<span class="k">StringIndex</span>=<span class="s">2</span>
   </div>
 </section>
 
